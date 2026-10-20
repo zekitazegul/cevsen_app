@@ -5,7 +5,7 @@ import 'app_update.dart';
 
 const supportUrl = 'https://zekitazegul.github.io/support/?lang=tr';
 const tikkieUrl = 'https://tikkie.me/pay/qp5ddh9l8i6gg1dq6bc0';
-const appVersion = '1.1.4';
+const appVersion = '1.1.5';
 
 Future<void> openExternal(BuildContext context, String url) async {
   try {
@@ -229,8 +229,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     'Cevşen-i Kebîr’in 100 babını ve kapanış duasını Arapça, meal ve Türkçe okunuş ile okuyabilirsin. Okunuş, Latin harfli telaffuzdur; meal anlamı gösterir. Metinler ve sesler cihazda bulunur.',
                   ),
                   const SizedBox(height: 16),
-                  const Text('Geliştirici: Zeki Tazegul'),
-                  const SizedBox(height: 16),
                   const Text(
                     'Uygulama ücretsiz ve reklamsızdır. Üyelik veya abonelik gerekmez. Kahve ikramı tamamen isteğe bağlıdır; hiçbir okuma özelliği ödeme gerektirmez.',
                   ),
@@ -271,7 +269,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 16),
                   const Text('Telif veya içerik düzeltme talepleri'),
-                  const SelectableText('ztazegul@yahoo.com'),
+                  const Text('Destek ve iletişim bölümünden mesaj gönderebilirsin.'),
                 ],
               ),
               ExpansionTile(
@@ -308,7 +306,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     'Kamera, mikrofon, konum veya rehber izni istenmez. Yerel tercihleri silmek için Android ayarlarından uygulama verilerini temizleyebilir veya uygulamayı kaldırabilirsin.',
                   ),
                   const SizedBox(height: 16),
-                  const SelectableText('İletişim: ztazegul@yahoo.com'),
+                  const Text('Gizlilik soruların için Destek ve iletişim bölümünü kullanabilirsin.'),
                 ],
               ),
               ExpansionTile(
@@ -428,7 +426,6 @@ class SupportCard extends StatelessWidget {
                     : 'Güncel destek bağlantısı ve geri bildirim',
               ),
             ),
-            const SelectableText('ztazegul@yahoo.com'),
           ],
         ),
       ),

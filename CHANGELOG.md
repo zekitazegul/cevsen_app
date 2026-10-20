@@ -1,3 +1,7 @@
+# 1.1.5+14
+
+- Ekranlardaki kişisel ad ve e-posta yazıları kaldırıldı; mesaj gönderme bağlantısı korundu.
+
 # 1.1.4+13
 
 - Lisanslar ve destek başlığındaki Türkçe karakterler düzeltildi.
