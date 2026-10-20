@@ -33,6 +33,18 @@ Ayarlar’dan kurulu APK paylaşılır. Güncelle düğmesi `zekitazegul/cevsen_
 
 Yeni sürüm için `pubspec.yaml` sürümünü ve build numarasını artır, `appVersion` değerini ve değişiklik notlarını güncelle; `flutter analyze`, `flutter test`, `flutter build apk --release` çalıştır. Aynı Android imzalama anahtarını koru. Ardından `powershell -File tools/publish_release.ps1` APK ve SHA-256 içeren `update.json` dosyasını aynı GitHub sürümüne yükler. Kullanıcı GitHub sayfası görmez. Kaynak adresi gerekirse `--dart-define=UPDATE_MANIFEST_URL=https://.../update.json` ile değiştirilebilir.
 
+## Kablosuz geliştirme bağlantısı
+
+`tools/watch_phone_connection.ps1`, eşleştirilmiş telefonu yaklaşık 15 saniyede bir kontrol eder ve bağlantı koparsa mDNS ile güncel portunu bulup yeniden bağlanır. Telefonun Wi-Fi ve Kablosuz hata ayıklama ayarları açık olmalıdır. Yardımcı, uygulama kurulumuna veya telefon kilidine müdahale etmez.
+
+PowerShell’de proje klasöründen arka planda başlatma:
+
+```powershell
+Start-Process powershell -WindowStyle Hidden -WorkingDirectory (Get-Location).Path -ArgumentList '-NoProfile -File .\tools\watch_phone_connection.ps1 -DeviceId TELEFON_KIMLIGI'
+```
+
+Durdurma: `powershell -NoProfile -File tools/watch_phone_connection.ps1 -Stop`. Bağlantı durumu `build/phone-connection.json` dosyasına yazılır; telefon doğrulama aracı bu bağlantıyı kullanır. Yerel durum ve günlükler GitHub’a yüklenmez.
+
 ## Kaynaklar
 
 Metinler: https://nurulkuran.com/cevsen/1 … /100. Sadece `lang="ar"` ve Latin harfli `lang="tr"` okunuş satırları alınmıştır; meal alınmaz. Kaynağın bablara göre değişen hallisnâ / ecirnâ / neccinâ kapanışları korunur. 73. bab kaynağında dokuz nida ve kapanış bulunur; eksik olduğu varsayılarak yeni satır üretilmemiştir.

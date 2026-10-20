@@ -1,10 +1,21 @@
 """Read-only UI inspection and explicit taps on the authorized test phone."""
-import subprocess, sys, time, re
+import subprocess, sys, time, re, os, json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 adb = 'C:/Users/Zek/AppData/Local/Android/sdk/platform-tools/adb.exe'
-serial = '192.168.68.104:41993'
+serial = os.environ.get('ADB_SERIAL')
+state_path = Path(__file__).resolve().parents[1] / 'build/phone-connection.json'
+if not serial and state_path.exists():
+    state = json.loads(state_path.read_text(encoding='utf-8-sig'))
+    if state.get('connected'):
+        serial = state.get('serial')
+if not serial:
+    devices = [line.split()[0] for line in subprocess.check_output([adb, 'devices'], timeout=15).decode().splitlines()
+               if len(line.split()) >= 2 and line.split()[1] == 'device']
+    if len(devices) != 1:
+        raise RuntimeError('Tek bir test telefonu bağla veya ADB_SERIAL değerini ayarla.')
+    serial = devices[0]
 out = Path('C:/cevsenApp/qa/distribution')
 out.mkdir(parents=True, exist_ok=True)
 
