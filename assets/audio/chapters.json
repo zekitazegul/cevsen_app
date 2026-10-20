@@ -1,0 +1,709 @@
+[
+  {
+    "bab": 1,
+    "file": "1.mp3",
+    "startMs": 0,
+    "endMs": 45150,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 2,
+    "file": "1.mp3",
+    "startMs": 45150,
+    "endMs": 92787,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 3,
+    "file": "1.mp3",
+    "startMs": 92787,
+    "endMs": 138789,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 4,
+    "file": "1.mp3",
+    "startMs": 138789,
+    "endMs": 195082,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 5,
+    "file": "1.mp3",
+    "startMs": 195082,
+    "endMs": 234394,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 6,
+    "file": "1.mp3",
+    "startMs": 234394,
+    "endMs": 296260,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 7,
+    "file": "1.mp3",
+    "startMs": 296260,
+    "endMs": 345809,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 8,
+    "file": "1.mp3",
+    "startMs": 345809,
+    "endMs": 396211,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 9,
+    "file": "1.mp3",
+    "startMs": 396211,
+    "endMs": 434745,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 10,
+    "file": "1.mp3",
+    "startMs": 434745,
+    "endMs": 489514,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/1-Cevsen-i-Kebir-Enes-SAKALLI-01-10-Bab.mp3"
+  },
+  {
+    "bab": 11,
+    "file": "11.mp3",
+    "startMs": 0,
+    "endMs": 60672,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 12,
+    "file": "11.mp3",
+    "startMs": 60672,
+    "endMs": 109106,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 13,
+    "file": "11.mp3",
+    "startMs": 109106,
+    "endMs": 150366,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 14,
+    "file": "11.mp3",
+    "startMs": 150366,
+    "endMs": 203955,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 15,
+    "file": "11.mp3",
+    "startMs": 203955,
+    "endMs": 257088,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 16,
+    "file": "11.mp3",
+    "startMs": 257088,
+    "endMs": 312589,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 17,
+    "file": "11.mp3",
+    "startMs": 312589,
+    "endMs": 351270,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 18,
+    "file": "11.mp3",
+    "startMs": 351270,
+    "endMs": 410425,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 19,
+    "file": "11.mp3",
+    "startMs": 410425,
+    "endMs": 472804,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 20,
+    "file": "11.mp3",
+    "startMs": 472804,
+    "endMs": 517569,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/2-Cevsen-i-Kebir-Enes-SAKALLI-11-20-Bab.mp3"
+  },
+  {
+    "bab": 21,
+    "file": "21.mp3",
+    "startMs": 0,
+    "endMs": 38721,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 22,
+    "file": "21.mp3",
+    "startMs": 38721,
+    "endMs": 89475,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 23,
+    "file": "21.mp3",
+    "startMs": 89475,
+    "endMs": 137180,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 24,
+    "file": "21.mp3",
+    "startMs": 137180,
+    "endMs": 191521,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 25,
+    "file": "21.mp3",
+    "startMs": 191521,
+    "endMs": 239477,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 26,
+    "file": "21.mp3",
+    "startMs": 239477,
+    "endMs": 277719,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 27,
+    "file": "21.mp3",
+    "startMs": 277719,
+    "endMs": 331469,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 28,
+    "file": "21.mp3",
+    "startMs": 331469,
+    "endMs": 384604,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 29,
+    "file": "21.mp3",
+    "startMs": 384604,
+    "endMs": 422757,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 30,
+    "file": "21.mp3",
+    "startMs": 422757,
+    "endMs": 469499,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/3-Cevsen-i-Kebir-Enes-SAKALLI-21-30-Bab.mp3"
+  },
+  {
+    "bab": 31,
+    "file": "31.mp3",
+    "startMs": 0,
+    "endMs": 41838,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 32,
+    "file": "31.mp3",
+    "startMs": 41838,
+    "endMs": 90205,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 33,
+    "file": "31.mp3",
+    "startMs": 90205,
+    "endMs": 127502,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 34,
+    "file": "31.mp3",
+    "startMs": 127502,
+    "endMs": 185713,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 35,
+    "file": "31.mp3",
+    "startMs": 185713,
+    "endMs": 243402,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 36,
+    "file": "31.mp3",
+    "startMs": 243402,
+    "endMs": 309517,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 37,
+    "file": "31.mp3",
+    "startMs": 309517,
+    "endMs": 346015,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 38,
+    "file": "31.mp3",
+    "startMs": 346015,
+    "endMs": 408492,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 39,
+    "file": "31.mp3",
+    "startMs": 408492,
+    "endMs": 456391,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 40,
+    "file": "31.mp3",
+    "startMs": 456391,
+    "endMs": 510077,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/4-Cevsen-i-Kebir-Enes-SAKALLI-31-40-Bab.mp3"
+  },
+  {
+    "bab": 41,
+    "file": "41.mp3",
+    "startMs": 0,
+    "endMs": 44576,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 42,
+    "file": "41.mp3",
+    "startMs": 44576,
+    "endMs": 102992,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 43,
+    "file": "41.mp3",
+    "startMs": 102992,
+    "endMs": 166417,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 44,
+    "file": "41.mp3",
+    "startMs": 166417,
+    "endMs": 220673,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 45,
+    "file": "41.mp3",
+    "startMs": 220673,
+    "endMs": 259061,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 46,
+    "file": "41.mp3",
+    "startMs": 259061,
+    "endMs": 314643,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 47,
+    "file": "41.mp3",
+    "startMs": 314643,
+    "endMs": 363240,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 48,
+    "file": "41.mp3",
+    "startMs": 363240,
+    "endMs": 409687,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 49,
+    "file": "41.mp3",
+    "startMs": 409687,
+    "endMs": 445218,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 50,
+    "file": "41.mp3",
+    "startMs": 445218,
+    "endMs": 497789,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/5-Cevsen-i-Kebir-Enes-SAKALLI-41-50-Bab.mp3"
+  },
+  {
+    "bab": 51,
+    "file": "51.mp3",
+    "startMs": 0,
+    "endMs": 48598,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 52,
+    "file": "51.mp3",
+    "startMs": 48598,
+    "endMs": 100405,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 53,
+    "file": "51.mp3",
+    "startMs": 100405,
+    "endMs": 157697,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 54,
+    "file": "51.mp3",
+    "startMs": 157697,
+    "endMs": 223463,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 55,
+    "file": "51.mp3",
+    "startMs": 223463,
+    "endMs": 277018,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 56,
+    "file": "51.mp3",
+    "startMs": 277018,
+    "endMs": 311389,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 57,
+    "file": "51.mp3",
+    "startMs": 311389,
+    "endMs": 371998,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 58,
+    "file": "51.mp3",
+    "startMs": 371998,
+    "endMs": 427603,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 59,
+    "file": "51.mp3",
+    "startMs": 427603,
+    "endMs": 478544,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 60,
+    "file": "51.mp3",
+    "startMs": 478544,
+    "endMs": 517904,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/6-Cevsen-i-Kebir-Enes-SAKALLI-51-60-Bab.mp3"
+  },
+  {
+    "bab": 61,
+    "file": "61.mp3",
+    "startMs": 0,
+    "endMs": 64359,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 62,
+    "file": "61.mp3",
+    "startMs": 64359,
+    "endMs": 129334,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 63,
+    "file": "61.mp3",
+    "startMs": 129334,
+    "endMs": 180757,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 64,
+    "file": "61.mp3",
+    "startMs": 180757,
+    "endMs": 223830,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 65,
+    "file": "61.mp3",
+    "startMs": 223830,
+    "endMs": 277162,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 66,
+    "file": "61.mp3",
+    "startMs": 277162,
+    "endMs": 345801,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 67,
+    "file": "61.mp3",
+    "startMs": 345801,
+    "endMs": 402669,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 68,
+    "file": "61.mp3",
+    "startMs": 402669,
+    "endMs": 438235,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 69,
+    "file": "61.mp3",
+    "startMs": 438235,
+    "endMs": 493175,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 70,
+    "file": "61.mp3",
+    "startMs": 493175,
+    "endMs": 549146,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/7-Cevsen-i-Kebir-Enes-SAKALLI-61-70-Bab.mp3"
+  },
+  {
+    "bab": 71,
+    "file": "71.mp3",
+    "startMs": 0,
+    "endMs": 55921,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 72,
+    "file": "71.mp3",
+    "startMs": 55921,
+    "endMs": 91801,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 73,
+    "file": "71.mp3",
+    "startMs": 91801,
+    "endMs": 139401,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 74,
+    "file": "71.mp3",
+    "startMs": 139401,
+    "endMs": 211633,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 75,
+    "file": "71.mp3",
+    "startMs": 211633,
+    "endMs": 262360,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 76,
+    "file": "71.mp3",
+    "startMs": 262360,
+    "endMs": 297638,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 77,
+    "file": "71.mp3",
+    "startMs": 297638,
+    "endMs": 352087,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 78,
+    "file": "71.mp3",
+    "startMs": 352087,
+    "endMs": 413036,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 79,
+    "file": "71.mp3",
+    "startMs": 413036,
+    "endMs": 459601,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 80,
+    "file": "71.mp3",
+    "startMs": 459601,
+    "endMs": 499383,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/8-Cevsen-i-Kebir-Enes-SAKALLI-71-80-Bab.mp3"
+  },
+  {
+    "bab": 81,
+    "file": "81.mp3",
+    "startMs": 0,
+    "endMs": 54186,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 82,
+    "file": "81.mp3",
+    "startMs": 54186,
+    "endMs": 112776,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 83,
+    "file": "81.mp3",
+    "startMs": 112776,
+    "endMs": 181234,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 84,
+    "file": "81.mp3",
+    "startMs": 181234,
+    "endMs": 213657,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 85,
+    "file": "81.mp3",
+    "startMs": 213657,
+    "endMs": 260656,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 86,
+    "file": "81.mp3",
+    "startMs": 260656,
+    "endMs": 319700,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 87,
+    "file": "81.mp3",
+    "startMs": 319700,
+    "endMs": 369008,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 88,
+    "file": "81.mp3",
+    "startMs": 369008,
+    "endMs": 402530,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 89,
+    "file": "81.mp3",
+    "startMs": 402530,
+    "endMs": 463681,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 90,
+    "file": "81.mp3",
+    "startMs": 463681,
+    "endMs": 527020,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/9-Cevsen-i-Kebir-Enes-SAKALLI-81-90-Bab.mp3"
+  },
+  {
+    "bab": 91,
+    "file": "91.mp3",
+    "startMs": 0,
+    "endMs": 41010,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 92,
+    "file": "91.mp3",
+    "startMs": 41010,
+    "endMs": 91086,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 93,
+    "file": "91.mp3",
+    "startMs": 91086,
+    "endMs": 152087,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 94,
+    "file": "91.mp3",
+    "startMs": 152087,
+    "endMs": 207560,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 95,
+    "file": "91.mp3",
+    "startMs": 207560,
+    "endMs": 267592,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 96,
+    "file": "91.mp3",
+    "startMs": 267592,
+    "endMs": 302376,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 97,
+    "file": "91.mp3",
+    "startMs": 302376,
+    "endMs": 368517,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 98,
+    "file": "91.mp3",
+    "startMs": 368517,
+    "endMs": 418526,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 99,
+    "file": "91.mp3",
+    "startMs": 418526,
+    "endMs": 462933,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 100,
+    "file": "91.mp3",
+    "startMs": 462933,
+    "endMs": 502988,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/10-Cevsen-i-Kebir-Enes-SAKALLI-91-100-Bab.mp3"
+  },
+  {
+    "bab": 101,
+    "file": "dua.mp3",
+    "startMs": 0,
+    "endMs": 282245,
+    "source": "https://cdn.herkul.org/ec_download/ortakdua/cevsen/11-Cevsen-i-Kebir-Enes-SAKALLI-Dua.mp3"
+  }
+]
