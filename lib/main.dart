@@ -692,7 +692,9 @@ class _ReaderState extends State<Reader> {
                   itemBuilder: (context, page) => StreamBuilder<Duration>(
                     stream: player.positionStream,
                     builder: (context, snapshot) => ChapterPage(
-                      key: ValueKey('$page-$transcript-$meaning'),
+                      key: ValueKey(
+                        '$page-$transcript-$meaning-${page == index}',
+                      ),
                       number: page + 1,
                       heading: widget.chapters[page]['title'] as String?,
                       rows: widget.chapters[page]['rows'] as List,

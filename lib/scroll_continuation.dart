@@ -15,7 +15,7 @@ class ScrollContinuation extends StatefulWidget {
 }
 
 class _ScrollContinuationState extends State<ScrollContinuation> {
-  final controller = ScrollController();
+  final controller = ScrollController(keepScrollOffset: false);
   bool remaining = false;
   @override
   void initState() {

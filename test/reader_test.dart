@@ -7,6 +7,62 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  for (final pageEffect in [true, false]) {
+    testWidgets(
+      'Bab 10 reopens with its heading visible (effect: $pageEffect)',
+      (tester) async {
+        SharedPreferences.setMockInitialValues({
+          'pageEffect': pageEffect,
+          'fitPage': false,
+          'arSize': 48.0,
+        });
+        final prefs = await SharedPreferences.getInstance();
+        final chapters =
+            jsonDecode(File('assets/cevsen.json').readAsStringSync()) as List;
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Reader(
+              prefs: prefs,
+              chapters: chapters,
+              audio: const [],
+              initial: 9,
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        ScrollPosition currentPosition() => tester
+            .state<ScrollableState>(
+              find.descendant(
+                of: find.byType(SingleChildScrollView).hitTestable(),
+                matching: find.byType(Scrollable),
+              ),
+            )
+            .position;
+
+        Future<void> turn(double direction) async {
+          await tester.drag(find.byType(PageView), Offset(direction * 600, 0));
+          await tester.pumpAndSettle();
+          expect(currentPosition().pixels, 0);
+        }
+
+        currentPosition().jumpTo(currentPosition().maxScrollExtent);
+        await tester.pumpAndSettle();
+        expect(currentPosition().pixels, greaterThan(0));
+        await turn(-1);
+        currentPosition().jumpTo(currentPosition().maxScrollExtent);
+        await tester.pumpAndSettle();
+        await turn(1);
+        expect(find.textContaining('10. BAB').hitTestable(), findsOneWidget);
+        await turn(-1);
+        expect(find.textContaining('11. BAB').hitTestable(), findsOneWidget);
+        expect(tester.takeException(), isNull);
+        await tester.pumpWidget(const SizedBox());
+        await tester.pumpAndSettle();
+      },
+    );
+  }
+
   testWidgets(
     'Reader follows finger and keeps scripts separate without audio card',
     (tester) async {
