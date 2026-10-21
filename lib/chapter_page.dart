@@ -16,6 +16,7 @@ class ChapterPage extends StatelessWidget {
     this.transcriptLeftAligned = false,
     this.meaning = false,
     this.heading,
+    this.readingProgress,
   });
   final int number;
   final List rows;
@@ -25,6 +26,7 @@ class ChapterPage extends StatelessWidget {
   final bool meaning;
   final String? heading;
   final double fontSize;
+  final double? readingProgress;
 
   @override
   Widget build(BuildContext context) => ColoredBox(
@@ -68,7 +70,10 @@ class ChapterPage extends StatelessWidget {
             while (size > minimum) {
               final painter =
                   TextPainter(
-                    text: TextSpan(text: transcript ? text.replaceAll('\u20db', '') : text, style: style(size)),
+                    text: TextSpan(
+                      text: transcript ? text.replaceAll('\u20db', '') : text,
+                      style: style(size),
+                    ),
                     textDirection: direction,
                     textAlign: alignment,
                     textScaler: scaler,
@@ -85,6 +90,7 @@ class ChapterPage extends StatelessWidget {
             }
           }
           return ScrollContinuation(
+            readingProgress: readingProgress,
             builder: (controller) => SingleChildScrollView(
               controller: controller,
               key: PageStorageKey(

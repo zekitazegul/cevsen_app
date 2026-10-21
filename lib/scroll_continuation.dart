@@ -3,8 +3,13 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class ScrollContinuation extends StatefulWidget {
-  const ScrollContinuation({super.key, required this.builder});
+  const ScrollContinuation({
+    super.key,
+    required this.builder,
+    this.readingProgress,
+  });
   final Widget Function(ScrollController) builder;
+  final double? readingProgress;
   @override
   State<ScrollContinuation> createState() => _ScrollContinuationState();
 }
@@ -25,6 +30,31 @@ class _ScrollContinuationState extends State<ScrollContinuation> {
   }
 
   @override
+  void didUpdateWidget(covariant ScrollContinuation oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.readingProgress != oldWidget.readingProgress) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => followReading());
+    }
+  }
+
+  void followReading() {
+    final progress = widget.readingProgress;
+    if (!mounted || progress == null || !controller.hasClients) return;
+    final position = controller.position;
+    if (position.maxScrollExtent <= 0) return;
+    // Keep the estimated reading location above the lower edge of the page.
+    final target =
+        (progress * (position.maxScrollExtent + position.viewportDimension) -
+                position.viewportDimension * .65)
+            .clamp(0.0, position.maxScrollExtent);
+    controller.animateTo(
+      target,
+      duration: const Duration(milliseconds: 220),
+      curve: Curves.linear,
+    );
+  }
+
+  @override
   void dispose() {
     controller.removeListener(check);
     controller.dispose();
@@ -35,7 +65,10 @@ class _ScrollContinuationState extends State<ScrollContinuation> {
   Widget build(BuildContext context) =>
       NotificationListener<ScrollMetricsNotification>(
         onNotification: (_) {
-          WidgetsBinding.instance.addPostFrameCallback((_) => check());
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            check();
+            followReading();
+          });
           return false;
         },
         child: Stack(

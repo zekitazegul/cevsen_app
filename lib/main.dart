@@ -290,6 +290,9 @@ class _ReaderState extends State<Reader> {
   late bool transcriptLeftAligned;
   late final PageController pages;
   int? loaded;
+  int? audioPage;
+  int playlistStart = 0;
+  StreamSubscription<int?>? audioIndexSubscription;
   @override
   void initState() {
     super.initState();
@@ -304,10 +307,18 @@ class _ReaderState extends State<Reader> {
     transcriptLeftAligned =
         widget.prefs.getBool('transcriptLeftAligned') ?? false;
     widget.prefs.setInt('last', index);
+    audioIndexSubscription = player.currentIndexStream.listen((track) {
+      if (!mounted || loaded == null || track == null) return;
+      final next = playlistStart + track;
+      if (next == index) return;
+      audioPage = next;
+      jump(next);
+    });
   }
 
   @override
   void dispose() {
+    audioIndexSubscription?.cancel();
     pages.dispose();
     player.dispose();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
@@ -328,8 +339,11 @@ class _ReaderState extends State<Reader> {
   }
 
   void selectedPage(int n) {
-    player.stop();
-    loaded = null;
+    if (audioPage != n) {
+      loaded = null;
+      player.stop();
+    }
+    audioPage = null;
     setState(() => index = n);
     widget.prefs.setInt('last', n);
   }
@@ -340,25 +354,61 @@ class _ReaderState extends State<Reader> {
       await player.pause();
       return;
     }
+    int? mode;
+    if (loaded == null || player.processingState == ProcessingState.completed) {
+      mode = await showModalBottomSheet<int>(
+        context: context,
+        showDragHandle: true,
+        builder: (context) => SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.headphones_outlined),
+                title: const Text('Bu babı dinle'),
+                onTap: () => Navigator.pop(context, 0),
+              ),
+              ListTile(
+                leading: const Icon(Icons.playlist_play),
+                title: const Text('Bu babdan sonuna kadar dinle'),
+                onTap: () => Navigator.pop(context, 1),
+              ),
+              ListTile(
+                leading: const Icon(Icons.play_circle_outline),
+                title: const Text('Cevşen’in tamamını dinle'),
+                subtitle: const Text('1. babdan başlar'),
+                onTap: () => Navigator.pop(context, 2),
+              ),
+            ],
+          ),
+        ),
+      );
+      if (!mounted || mode == null) return;
+    }
     setState(() => busy = true);
     try {
       final requested = index;
-      final t = widget.audio[requested];
-      if (loaded != index) {
-        await player.setAudioSource(
-          ClippingAudioSource(
-            child: AudioSource.asset('assets/audio/${t['file']}'),
-            start: Duration(milliseconds: t['startMs'] as int),
-            end: Duration(milliseconds: t['endMs'] as int),
-          ),
-        );
+      if (mode != null) {
+        loaded = null;
+        playlistStart = mode == 2 ? 0 : requested;
+        final end = mode == 0 ? requested + 1 : widget.audio.length;
+        await player.setAudioSources([
+          for (final t in widget.audio.sublist(playlistStart, end))
+            ClippingAudioSource(
+              child: AudioSource.asset('assets/audio/${t['file']}'),
+              start: Duration(milliseconds: t['startMs'] as int),
+              end: Duration(milliseconds: t['endMs'] as int),
+            ),
+        ]);
         if (!mounted || index != requested) {
           await player.stop();
           return;
         }
         loaded = requested;
-      } else if (player.processingState == ProcessingState.completed) {
-        await player.seek(Duration.zero);
+        if (playlistStart != index) {
+          audioPage = playlistStart;
+          pages.jumpToPage(playlistStart);
+        }
       }
       unawaited(player.play());
     } catch (_) {
@@ -559,7 +609,10 @@ class _ReaderState extends State<Reader> {
                 StreamBuilder<PlayerState>(
                   stream: player.playerStateStream,
                   builder: (context, snapshot) => IconButton(
-                    tooltip: snapshot.data?.playing == true
+                    tooltip:
+                        snapshot.data?.playing == true &&
+                            snapshot.data?.processingState !=
+                                ProcessingState.completed
                         ? 'Duraklat'
                         : 'Dinle',
                     onPressed: busy ? null : listen,
@@ -636,21 +689,34 @@ class _ReaderState extends State<Reader> {
                   controller: pages,
                   itemCount: widget.chapters.length,
                   onPageChanged: selectedPage,
-                  itemBuilder: (context, page) => ChapterPage(
-                    key: ValueKey('$page-$transcript-$meaning'),
-                    number: page + 1,
-                    heading: widget.chapters[page]['title'] as String?,
-                    rows: widget.chapters[page]['rows'] as List,
-                    transcript: transcript,
-                    fontSize: meaning
-                        ? mealSize
-                        : transcript
-                        ? trSize
-                        : arSize,
-                    meaning: meaning,
-                    fitPage: fitPage,
-                    arabicLineStarts: arabicLineStarts,
-                    transcriptLeftAligned: transcriptLeftAligned,
+                  itemBuilder: (context, page) => StreamBuilder<Duration>(
+                    stream: player.positionStream,
+                    builder: (context, snapshot) => ChapterPage(
+                      key: ValueKey('$page-$transcript-$meaning'),
+                      number: page + 1,
+                      heading: widget.chapters[page]['title'] as String?,
+                      rows: widget.chapters[page]['rows'] as List,
+                      transcript: transcript,
+                      fontSize: meaning
+                          ? mealSize
+                          : transcript
+                          ? trSize
+                          : arSize,
+                      meaning: meaning,
+                      fitPage: fitPage,
+                      arabicLineStarts: arabicLineStarts,
+                      transcriptLeftAligned: transcriptLeftAligned,
+                      readingProgress:
+                          loaded != null &&
+                              playlistStart + (player.currentIndex ?? 0) ==
+                                  page &&
+                              page < widget.audio.length
+                          ? (player.position.inMilliseconds /
+                                    ((widget.audio[page]['endMs'] as int) -
+                                        (widget.audio[page]['startMs'] as int)))
+                                .clamp(0.0, 1.0)
+                          : null,
+                    ),
                   ),
                 ),
               ),

@@ -27,6 +27,15 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.textContaining('Enes Sakallı'), findsNothing);
       expect(find.byIcon(Icons.play_arrow), findsNothing);
+      await tester.tap(find.byTooltip('Dinle'));
+      await tester.pumpAndSettle();
+      expect(find.text('Bu babı dinle'), findsOneWidget);
+      expect(find.text('Bu babdan sonuna kadar dinle'), findsOneWidget);
+      expect(find.text('Cevşen’in tamamını dinle'), findsOneWidget);
+      expect(find.text('1. babdan başlar'), findsOneWidget);
+      await tester.tapAt(const Offset(10, 100));
+      await tester.pumpAndSettle();
+      expect(find.text('Bu babı dinle'), findsNothing);
       final pageView = tester.widget<PageView>(find.byType(PageView));
       final gesture = await tester.startGesture(
         tester.getCenter(find.byType(PageView)),
