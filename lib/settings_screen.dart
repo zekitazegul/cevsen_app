@@ -7,7 +7,7 @@ import 'screen_awake.dart';
 
 const supportUrl = 'https://zekitazegul.github.io/support/?lang=tr';
 const tikkieUrl = 'https://tikkie.me/pay/qp5ddh9l8i6gg1dq6bc0';
-const appVersion = '1.2.2';
+const appVersion = '1.2.3';
 
 Future<void> openExternal(BuildContext context, String url) async {
   try {
@@ -112,7 +112,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Ayarlar')),
     body: ListView(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+      padding: EdgeInsets.fromLTRB(
+        12 + MediaQuery.viewPaddingOf(context).left,
+        8,
+        12 + MediaQuery.viewPaddingOf(context).right,
+        12 + MediaQuery.viewPaddingOf(context).bottom,
+      ),
       children: [
         Card(
           child: ExpansionTile(

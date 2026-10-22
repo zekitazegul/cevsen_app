@@ -1,5 +1,5 @@
-Güncellemeler bölümü açılıp kapatılabilir.
+Ayarlar sayfasında destek bölümüne erişim iyileştirildi.
 
-The Updates section can be expanded and collapsed.
+Improved access to support in Settings.
 
-Het onderdeel Updates kan worden geopend en gesloten.
+Verbeterde toegang tot ondersteuning in Instellingen.
