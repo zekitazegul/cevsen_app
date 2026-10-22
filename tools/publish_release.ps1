@@ -37,6 +37,7 @@ try {
 } finally { $archive.Dispose() }
 
 $metadata = [ordered]@{
+    releaseNotes = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'release-notes.json') -Encoding UTF8 -Raw | ConvertFrom-Json
     versionName = $version
     versionCode = [long]$build
     sizeBytes = (Get-Item -LiteralPath $destination).Length

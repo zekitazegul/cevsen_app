@@ -45,7 +45,7 @@ void main() {
       final toggle = find.widgetWithText(SwitchListTile, 'Uygulama açıkken');
       expect(tester.widget<SwitchListTile>(toggle).value, isTrue);
       expect(
-        tester.getTopLeft(find.text('Güncelle')).dy,
+        tester.getTopLeft(find.text('Güncellemeler')).dy,
         lessThan(tester.getTopLeft(find.text('Uygulamayı paylaş')).dy),
       );
       await tester.tap(toggle);

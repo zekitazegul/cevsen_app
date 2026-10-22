@@ -1,1 +1,5 @@
-Cevsen Installer ile paylaşım, isteğe bağlı ses indirme ve ekranı açık tutma ayarı.
+Yeni sürüm işareti ve güncelleme açıklamaları.
+
+New version indicator and update notes.
+
+Melding van nieuwe versies en uitleg over updates.

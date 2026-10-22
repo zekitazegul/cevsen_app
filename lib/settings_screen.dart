@@ -7,7 +7,7 @@ import 'screen_awake.dart';
 
 const supportUrl = 'https://zekitazegul.github.io/support/?lang=tr';
 const tikkieUrl = 'https://tikkie.me/pay/qp5ddh9l8i6gg1dq6bc0';
-const appVersion = '1.2.0';
+const appVersion = '1.2.1';
 
 Future<void> openExternal(BuildContext context, String url) async {
   try {
@@ -340,7 +340,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'Okuma çevrimdışı çalışır. Dinleme için tüm ses kayıtları bir kez Herkul sunucusundan indirilir; ardından internet gerekmez. Sunucu IP adresi gibi bağlantı bilgilerini görebilir. Güncelle düğmesine basıldığında sürüm bilgisi ve varsa yeni APK GitHub üzerinden indirilir; GitHub IP adresi gibi bağlantı bilgilerini görebilir. Mobil veri ücreti oluşabilir. Paylaşımda yalnızca küçük kurucu gönderilir; alıcı uygulamayı internetten indirir. Kurulum Android onayıyla tamamlanır. Destek veya kaynak bağlantısını seçersen haricî tarayıcı açılır. Tarayıcı, destek sitesi ve ödeme sağlayıcısının kendi koşulları geçerlidir. Uygulama banka veya kart bilgilerini işlemez.',
+                    'Okuma çevrimdışı çalışır. Dinleme için tüm ses kayıtları bir kez Herkul sunucusundan indirilir; ardından internet gerekmez. Sunucu IP adresi gibi bağlantı bilgilerini görebilir. Ayarlar açıldığında yeni sürüm bilgisi GitHub üzerinden kontrol edilir. Güncelle seçildiğinde varsa yeni APK indirilir; GitHub IP adresi gibi bağlantı bilgilerini görebilir. Mobil veri ücreti oluşabilir. Paylaşımda yalnızca küçük kurucu gönderilir; alıcı uygulamayı internetten indirir. Kurulum Android onayıyla tamamlanır. Destek veya kaynak bağlantısını seçersen haricî tarayıcı açılır. Tarayıcı, destek sitesi ve ödeme sağlayıcısının kendi koşulları geçerlidir. Uygulama banka veya kart bilgilerini işlemez.',
                   ),
                   const SizedBox(height: 16),
                   const Text(

@@ -17,6 +17,10 @@ void main() {
     var calls = 0;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(channel, (call) async {
+          if (call.method == 'checkUpdate') {
+            calls++;
+            return {'available': false, 'installedVersionName': '1.1.1'};
+          }
           calls++;
           expect(call.arguments['manifestUrl'], contains('cevsen_app'));
           return 'Uygulamanız zaten en son sürüm olan 1.1.1 sürümünde.';
@@ -24,13 +28,12 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(home: Scaffold(body: AppUpdateTile())),
     );
-    await tester.tap(find.text('Güncelle'));
-    await tester.pumpAndSettle();
-    expect(calls, 0);
-    await tester.tap(find.text('Güncellemeleri kontrol et'));
     await tester.pumpAndSettle();
     expect(calls, 1);
-    expect(find.textContaining('1.1.1 sürümünde'), findsOneWidget);
+    await tester.tap(find.text('Güncellemeler'));
+    await tester.pumpAndSettle();
+    expect(calls, 2);
+    expect(find.textContaining('Sürüm: 1.1.1'), findsOneWidget);
   });
 
   testWidgets('Network failure remains retryable', (tester) async {
@@ -45,18 +48,44 @@ void main() {
     await tester.pumpWidget(
       const MaterialApp(home: Scaffold(body: AppUpdateTile())),
     );
-    await tester.tap(find.text('Güncelle'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Güncellemeleri kontrol et'));
+    await tester.tap(find.text('Güncellemeler'));
     await tester.pumpAndSettle();
-    expect(find.text('Bağlantı yok.'), findsOneWidget);
+    expect(find.textContaining('Sürüm bilgisi alınamadı'), findsOneWidget);
     expect(
       tester
-          .widget<ListTile>(
-            find.widgetWithText(ListTile, 'Güncellemeleri kontrol et'),
-          )
+          .widget<ListTile>(find.widgetWithText(ListTile, 'Güncellemeler'))
           .onTap,
       isNotNull,
     );
   });
+
+  testWidgets(
+    'A newer version shows a badge and notes without starting an install',
+    (tester) async {
+      final calls = <String>[];
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, (call) async {
+            calls.add(call.method);
+            return {
+              'available': true,
+              'versionName': '9.0',
+              'releaseNotes': {'tr': 'Yeni okuma seçenekleri.'},
+            };
+          });
+      await tester.pumpWidget(
+        const MaterialApp(home: Scaffold(body: AppUpdateTile())),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Yeni'), findsOneWidget);
+      expect(find.text('Yeni okuma seçenekleri.'), findsNothing);
+      await tester.tap(find.text('Güncellemeler'));
+      await tester.pumpAndSettle();
+      expect(find.text('Yeni sürüm: 9.0'), findsOneWidget);
+      expect(find.text('Yeni okuma seçenekleri.'), findsOneWidget);
+      expect(find.widgetWithText(ListTile, 'Güncellemeler'), findsOneWidget);
+      expect(calls, ['checkUpdate', 'checkUpdate']);
+      expect(find.widgetWithText(FilledButton, 'Güncelle'), findsOneWidget);
+    },
+  );
 }

@@ -30,6 +30,10 @@ class AppUpdater(private val activity: MainActivity, private val channel: Method
 
     init {
         channel.setMethodCallHandler { call, result ->
+            if (call.method == "checkUpdate") {
+                checkUpdate(call.argument<String>("manifestUrl") ?: "", call.argument<Boolean>("force") == true, result)
+                return@setMethodCallHandler
+            }
             if (call.method != "update") { result.notImplemented(); return@setMethodCallHandler }
             if (pending != null) { result.error("busy", "Güncelleme zaten devam ediyor.", null); return@setMethodCallHandler }
             val manifestUrl = call.argument<String>("manifestUrl") ?: ""
@@ -126,6 +130,57 @@ class AppUpdater(private val activity: MainActivity, private val channel: Method
                 }
             }.start()
         }
+    }
+
+
+    private fun checkUpdate(address: String, force: Boolean, reply: MethodChannel.Result) {
+        Thread {
+            try {
+                val installedInfo = activity.packageManager.getPackageInfo(activity.packageName, 0)
+        val installed = versionCode(installedInfo)
+                val prefs = activity.getSharedPreferences("update-status-v1", Context.MODE_PRIVATE)
+                val now = System.currentTimeMillis()
+                val cached = prefs.getString("metadata", null)
+                val fresh = !force && cached != null && prefs.getString("url", null) == address &&
+                    now - prefs.getLong("checkedAt", 0) in 0L..900000L && prefs.getLong("installed", -1) == installed
+                val metadata = if (fresh) JSONObject(cached!!) else {
+                    val conn = connection(address)
+                    try {
+                        conn.inputStream.use { input ->
+                            val bytes = input.readBytesLimited(65536)
+                            JSONObject(String(bytes, Charsets.UTF_8))
+                        }
+                    } finally { conn.disconnect() }
+                }
+                val code = metadata.getLong("versionCode")
+                val name = metadata.getString("versionName")
+                require(code > 0 && name.length in 1..80)
+                val notes = metadata.optJSONObject("releaseNotes")
+                val translated = listOf("tr", "en", "nl").associateWith { language ->
+                    (notes?.optString(language, "") ?: "").take(2000)
+                }
+                if (!fresh) prefs.edit().putString("metadata", metadata.toString()).putString("url", address)
+                    .putLong("checkedAt", now).putLong("installed", installed).apply()
+                val value = mapOf("installedVersionName" to installedInfo.versionName,
+            "available" to (code > installed), "versionName" to name,
+                    "versionCode" to code, "releaseNotes" to translated)
+                activity.runOnUiThread { reply.success(value) }
+            } catch (_: Exception) {
+                activity.runOnUiThread { reply.error("check", "updateCheckError", null) }
+            }
+        }.start()
+    }
+
+    private fun java.io.InputStream.readBytesLimited(limit: Int): ByteArray {
+        val out = ByteArrayOutputStream()
+        val buffer = ByteArray(4096)
+        while (true) {
+            val count = read(buffer, 0, minOf(buffer.size, limit + 1 - out.size()))
+            if (count < 0) break
+            out.write(buffer, 0, count)
+            require(out.size() <= limit)
+        }
+        return out.toByteArray()
     }
 
     private fun signatureFlags() = if (Build.VERSION.SDK_INT >= 28) PackageManager.GET_SIGNING_CERTIFICATES else PackageManager.GET_SIGNATURES

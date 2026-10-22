@@ -37,7 +37,7 @@ void main() {
       expect(find.text('Cevsen Installer’ı paylaş'), findsNothing);
       expect(
         tester.getTopLeft(find.text('Okuma ve görünüm')).dy,
-        lessThan(tester.getTopLeft(find.text('Güncelle')).dy),
+        lessThan(tester.getTopLeft(find.text('Güncellemeler')).dy),
       );
       await tester.tap(find.text('Uygulamayı paylaş'));
       await tester.pumpAndSettle();
