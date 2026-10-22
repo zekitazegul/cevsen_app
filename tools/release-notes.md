@@ -1,5 +1,5 @@
-Yeni sürüm işareti ve güncelleme açıklamaları.
+Güncellemeler bölümü açılıp kapatılabilir.
 
-New version indicator and update notes.
+The Updates section can be expanded and collapsed.
 
-Melding van nieuwe versies en uitleg over updates.
+Het onderdeel Updates kan worden geopend en gesloten.

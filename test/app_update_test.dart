@@ -85,6 +85,13 @@ void main() {
       expect(find.text('Yeni okuma seçenekleri.'), findsOneWidget);
       expect(find.widgetWithText(ListTile, 'Güncellemeler'), findsOneWidget);
       expect(calls, ['checkUpdate', 'checkUpdate']);
+      await tester.tap(find.text('Güncellemeler'));
+      await tester.pumpAndSettle();
+      expect(find.widgetWithText(FilledButton, 'Güncelle'), findsNothing);
+      expect(calls.length, 2);
+      await tester.tap(find.text('Güncellemeler'));
+      await tester.pumpAndSettle();
+      expect(calls, ['checkUpdate', 'checkUpdate', 'checkUpdate']);
       expect(find.widgetWithText(FilledButton, 'Güncelle'), findsOneWidget);
     },
   );
