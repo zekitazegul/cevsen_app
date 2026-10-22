@@ -26,6 +26,9 @@ void main() {
     );
     await tester.tap(find.text('Güncelle'));
     await tester.pumpAndSettle();
+    expect(calls, 0);
+    await tester.tap(find.text('Güncellemeleri kontrol et'));
+    await tester.pumpAndSettle();
     expect(calls, 1);
     expect(find.textContaining('1.1.1 sürümünde'), findsOneWidget);
   });
@@ -44,7 +47,16 @@ void main() {
     );
     await tester.tap(find.text('Güncelle'));
     await tester.pumpAndSettle();
+    await tester.tap(find.text('Güncellemeleri kontrol et'));
+    await tester.pumpAndSettle();
     expect(find.text('Bağlantı yok.'), findsOneWidget);
-    expect(tester.widget<ListTile>(find.byType(ListTile)).onTap, isNotNull);
+    expect(
+      tester
+          .widget<ListTile>(
+            find.widgetWithText(ListTile, 'Güncellemeleri kontrol et'),
+          )
+          .onTap,
+      isNotNull,
+    );
   });
 }

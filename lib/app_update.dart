@@ -74,17 +74,22 @@ class _AppUpdateTileState extends State<AppUpdateTile> {
 
   @override
   Widget build(BuildContext context) => Card(
-    child: ListTile(
+    child: ExpansionTile(
       leading: const Icon(Icons.system_update_outlined),
       title: const Text('Güncelle'),
-      subtitle: Text(status),
-      trailing: busy
-          ? const SizedBox.square(
-              dimension: 22,
-              child: CircularProgressIndicator(),
-            )
-          : const Icon(Icons.chevron_right),
-      onTap: busy ? null : check,
+      children: [
+        ListTile(
+          title: const Text('Güncellemeleri kontrol et'),
+          subtitle: Text(status),
+          trailing: busy
+              ? const SizedBox.square(
+                  dimension: 22,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.chevron_right),
+          onTap: busy ? null : check,
+        ),
+      ],
     ),
   );
 }

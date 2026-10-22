@@ -48,3 +48,22 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+// Build the small native installer from source and embed it for offline sharing.
+abstract class PrepareInstallerAsset : DefaultTask() {
+    @get:InputFile abstract val installer: RegularFileProperty
+    @get:OutputDirectory abstract val outputDir: DirectoryProperty
+    @TaskAction fun prepare() {
+        val destination = outputDir.get().asFile.apply { mkdirs() }
+        destination.resolve("Cevsen-Kurucu.apk").delete()
+        installer.get().asFile.copyTo(destination.resolve("Cevsen-Installer.apk"), overwrite = true)
+    }
+}
+val prepareInstallerAsset = tasks.register<PrepareInstallerAsset>("prepareInstallerAsset") {
+    dependsOn(":installer:assembleRelease")
+    installer.set(project(":installer").layout.buildDirectory.file("outputs/apk/release/installer-release.apk"))
+    outputDir.set(layout.buildDirectory.dir("generated/installerAssets"))
+}
+androidComponents.onVariants { variant ->
+    variant.sources.assets?.addGeneratedSourceDirectory(prepareInstallerAsset, PrepareInstallerAsset::outputDir)
+}

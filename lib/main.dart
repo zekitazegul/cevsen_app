@@ -4,6 +4,9 @@ import 'dart:math' as math;
 
 import 'chapter_page.dart';
 import 'settings_screen.dart';
+import 'screen_awake.dart';
+import 'audio_library.dart';
+import 'audio_download_dialog.dart';
 
 import 'package:flutter/foundation.dart';
 
@@ -18,6 +21,7 @@ const green = Color(0xff123f35),
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
+  await setScreenAwake(prefs.getBool('keepScreenOn') ?? true);
   final chapters =
       jsonDecode(await rootBundle.loadString('assets/cevsen.json')) as List;
   final audio = jsonDecode(
@@ -389,13 +393,24 @@ class _ReaderState extends State<Reader> {
     try {
       final requested = index;
       if (mode != null) {
+        final library = await AudioLibrary.load();
+        if (!await library.ready) {
+          if (!mounted) return;
+          final downloaded = await showDialog<bool>(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => AudioDownloadDialog(library: library),
+          );
+          if (downloaded != true) return;
+        }
+        if (!mounted || index != requested) return;
         loaded = null;
         playlistStart = mode == 2 ? 0 : requested;
         final end = mode == 0 ? requested + 1 : widget.audio.length;
         await player.setAudioSources([
           for (final t in widget.audio.sublist(playlistStart, end))
             ClippingAudioSource(
-              child: AudioSource.asset('assets/audio/${t['file']}'),
+              child: AudioSource.file('${library.directory.path}/${t['file']}'),
               start: Duration(milliseconds: t['startMs'] as int),
               end: Duration(milliseconds: t['endMs'] as int),
             ),

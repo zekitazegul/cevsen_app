@@ -29,9 +29,13 @@ Uygulama kimliği: `com.zek.cevsen_app`. KuranApp'tan bağımsız kurulur.
 
 ## Paylaşım ve güncelleme
 
-Ayarlar’dan kurulu APK paylaşılır. Güncelle düğmesi `zekitazegul/cevsen_app` deposunun son sürümündeki `update.json` dosyasını kontrol eder, yeni sürümü uygulama içinde indirir ve Android kurulum onayını açar. Sürüm karşılaştırması `versionCode` ile yapılır; ekranda cihazda kurulu sürüm gösterilir. İnternet hatası güncel sürüm sonucu olarak gösterilmez.
+Ayarlar’dan yalnızca küçük `Cevsen-Installer.apk` paylaşılır. Ana APK ve indirilen sesler paylaşılmaz. Kurucu `android/installer` altındaki bağımsız, Flutter içermeyen Android modülüdür. Ana uygulama derlenirken kaynak koddan üretilip Android varlıklarına eklenir; Git’e üretilmiş APK eklenmez. Uygulamayı yeni kuran kullanıcı da aynı küçük kurucuyu çevrimdışı paylaşabilir.
 
-Yeni sürüm için `pubspec.yaml` sürümünü ve build numarasını artır, `appVersion` değerini ve değişiklik notlarını güncelle; `flutter analyze`, `flutter test`, `flutter build apk --release` çalıştır. Aynı Android imzalama anahtarını koru. Ardından `powershell -File tools/publish_release.ps1` APK ve SHA-256 içeren `update.json` dosyasını aynı GitHub sürümüne yükler. Kullanıcı GitHub sayfası görmez. Kaynak adresi gerekirse `--dart-define=UPDATE_MANIFEST_URL=https://.../update.json` ile değiştirilebilir.
+Kurucu son sürümün `update.json` bilgisini alır, ana APK’yı indirir, SHA-256, paket adı, sürüm ve imzayı doğrular; Android’in izin ve kurulum onayı ekranlarını açar. Kurucu ve ana uygulama aynı anahtarla imzalanmalıdır. Kullanıcı kurulumdan sonra kurucuyu kaldırabilir. Sesler Cevşen içinde isteğe bağlı indirilir.
+
+Güncelle düğmesi `zekitazegul/cevsen_app` deposunun son sürümündeki `update.json` dosyasını kontrol eder, yeni sürümü uygulama içinde indirir ve Android kurulum onayını açar. Sürüm karşılaştırması `versionCode` ile yapılır; ekranda cihazda kurulu sürüm gösterilir. İnternet hatası güncel sürüm sonucu olarak gösterilmez.
+
+Yeni sürüm için `pubspec.yaml` sürümünü ve build numarasını artır, `appVersion` değerini ve değişiklik notlarını güncelle; `flutter analyze`, `flutter test`, `flutter build apk --release` çalıştır. Aynı Android imzalama anahtarını koru. `powershell -File tools/publish_release.ps1 -PrepareOnly` ana APK, kurucu ve SHA-256 içeren `update.json` dosyasını yerelde hazırlar; MP3 bulunmadığını ve gömülü kurucunun aynı olduğunu kontrol eder. Yayın için `powershell -File tools/publish_release.ps1` bu dosyaları aynı GitHub sürümüne yükler. Kurucunun yeni sürümü indirebilmesi için bu yayın gerekir. Ana uygulamanın güncelleme adresi gerekirse `--dart-define=UPDATE_MANIFEST_URL=https://.../update.json` ile değiştirilebilir; kurucunun yayın adresi kendi Gradle dosyasında tanımlıdır.
 
 ## Kablosuz geliştirme bağlantısı
 
@@ -49,7 +53,7 @@ Durdurma: `powershell -NoProfile -File tools/watch_phone_connection.ps1 -Stop`. 
 
 Metinler: https://nurulkuran.com/cevsen/1 … /100. Sadece `lang="ar"` ve Latin harfli `lang="tr"` okunuş satırları alınmıştır; meal alınmaz. Kaynağın bablara göre değişen hallisnâ / ecirnâ / neccinâ kapanışları korunur. 73. bab kaynağında dokuz nida ve kapanış bulunur; eksik olduğu varsayılarak yeni satır üretilmemiştir.
 
-Ses: https://herkul.org/cevsen/1~10 … /91~100; seslendiren Enes Sakallı. Asıl MP3 adresleri `assets/audio/index.json` içinde saklanır. Dosyalar uygulamaya dahildir; internet gerekmez. `chapters.json` her babın aynı dosya içindeki başlangıç/bitişini belirtir. Sınırlar, tekrarlanan kapanış duasının akustik eşleştirmesi ve sessiz duraklardan çıkarılmıştır; 100 sınırın tamamı insan tarafından dinlenerek onaylanmış değildir.
+Ses: https://herkul.org/cevsen/1~10 … /91~100; seslendiren Enes Sakallı. Asıl MP3 adresleri `assets/audio/index.json` içinde saklanır. MP3 dosyaları APK’ya dahil edilmez. İlk dinleme isteğinde kullanıcı onayıyla tüm kayıtlar (yaklaşık 129 MB) kaynak sunucudan uygulamanın özel dosya alanına indirilir. Sonraki dinlemeler çevrimdışıdır. İptal veya bağlantı hatasında tamamlanan dosyalar korunur; eksik dosya yeniden indirilir. `downloads.json` dosya adreslerini ve beklenen boyutları içerir. Kaynak sesler değişirse `python tools/build_audio_downloads.py` ile yerel kaynak dosyalarından bu dizini yeniden üret. `chapters.json` her babın aynı dosya içindeki başlangıç/bitişini belirtir. Sınırlar, tekrarlanan kapanış duasının akustik eşleştirmesi ve sessiz duraklardan çıkarılmıştır; 100 sınırın tamamı insan tarafından dinlenerek onaylanmış değildir.
 
 Yazı tipi: Amiri, SIL Open Font License; lisans `assets/fonts/OFL.txt`.
 

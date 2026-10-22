@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'app_update.dart';
+import 'screen_awake.dart';
 
 const supportUrl = 'https://zekitazegul.github.io/support/?lang=tr';
 const tikkieUrl = 'https://tikkie.me/pay/qp5ddh9l8i6gg1dq6bc0';
-const appVersion = '1.1.5';
+const appVersion = '1.2.0';
 
 Future<void> openExternal(BuildContext context, String url) async {
   try {
@@ -32,35 +34,40 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   late double ar, tr, meal;
-  late bool fit, right, left, effect;
-  bool preparingApk = false;
+  late bool fit, right, left, effect, keepScreenOn;
+  bool preparingInstaller = false;
 
-  Future<void> shareApk() async {
-    if (preparingApk) return;
-    setState(() => preparingApk = true);
+  Future<void> shareInstaller() async {
+    if (preparingInstaller) return;
+    setState(() => preparingInstaller = true);
     try {
       await const MethodChannel('com.zek.cevsen_app/external')
-          .invokeMethod<void>('shareApk');
+          .invokeMethod<void>('shareInstaller');
     } on PlatformException catch (error) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(error.message ?? 'APK paylaşılamadı.')),
+          SnackBar(
+            content: Text(error.message ?? 'Kurulum dosyası paylaşılamadı.'),
+          ),
         );
       }
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('APK paylaşılamadı. Yeniden dene.')),
+          const SnackBar(
+            content: Text('Kurulum dosyası paylaşılamadı. Yeniden dene.'),
+          ),
         );
       }
     } finally {
-      if (mounted) setState(() => preparingApk = false);
+      if (mounted) setState(() => preparingInstaller = false);
     }
   }
 
   @override
   void initState() {
     super.initState();
+    keepScreenOn = widget.prefs.getBool('keepScreenOn') ?? true;
     ar = widget.prefs.getDouble('arSize') ?? 32;
     tr = widget.prefs.getDouble('trSize') ?? 20;
     meal = widget.prefs.getDouble('mealSize') ?? 18;
@@ -105,38 +112,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Ayarlar')),
     body: ListView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
       children: [
-        const AppUpdateTile(),
-        Card(
-          child: ExpansionTile(
-            leading: const Icon(Icons.share_outlined),
-            title: const Text('Uygulamayı paylaş'),
-            children: [
-              ListTile(
-                title: Text(
-                  preparingApk ? 'APK hazırlanıyor…' : 'APK olarak paylaş',
-                ),
-                subtitle: const Text(
-                  'Telefonunda kurulu sürümü WhatsApp, e-posta veya başka bir uygulamayla gönder.',
-                ),
-                trailing: preparingApk
-                    ? const SizedBox.square(
-                        dimension: 22,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.android),
-                onTap: preparingApk ? null : shareApk,
-              ),
-            ],
-          ),
-        ),
         Card(
           child: ExpansionTile(
             initiallyExpanded: false,
             leading: const Icon(Icons.auto_stories_outlined),
             title: const Text('Okuma ve görünüm'),
-            childrenPadding: const EdgeInsets.all(16),
+            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
             children: [
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
@@ -210,6 +193,62 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           ),
         ),
+        const AppUpdateTile(),
+        Card(
+          child: ExpansionTile(
+            leading: const Icon(Icons.screen_lock_portrait_outlined),
+            title: const Text('Ekranı açık tut'),
+            children: [
+              SwitchListTile(
+                title: const Text('Uygulama açıkken'),
+                subtitle: const Text('Ekran otomatik kapanmaz.'),
+                value: keepScreenOn,
+                onChanged: (value) async {
+                  try {
+                    await setScreenAwake(value);
+                    await widget.prefs.setBool('keepScreenOn', value);
+                    if (mounted) setState(() => keepScreenOn = value);
+                  } catch (_) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Ekran ayarı değiştirilemedi. Yeniden dene.',
+                          ),
+                        ),
+                      );
+                    }
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+        Card(
+          child: ExpansionTile(
+            leading: const Icon(Icons.share_outlined),
+            title: const Text('Uygulamayı paylaş'),
+            children: [
+              ListTile(
+                title: Text(
+                  preparingInstaller
+                      ? 'Kurulum dosyası hazırlanıyor…'
+                      : 'Cevsen Installer’ı paylaş',
+                ),
+                subtitle: const Text(
+                  'Küçük kurulum dosyasını WhatsApp veya e-postayla gönder. Cevşen alıcının telefonuna internetten indirilir; sesler isteğe bağlıdır.',
+                ),
+                trailing: preparingInstaller
+                    ? const SizedBox.square(
+                        dimension: 22,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.android),
+                onTap: preparingInstaller ? null : shareInstaller,
+              ),
+            ],
+          ),
+        ),
         Card(
           child: Column(
             children: [
@@ -226,7 +265,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const Text('Sürüm $appVersion'),
                   const SizedBox(height: 16),
                   const Text(
-                    'Cevşen-i Kebîr’in 100 babını ve kapanış duasını Arapça, meal ve Türkçe okunuş ile okuyabilirsin. Okunuş, Latin harfli telaffuzdur; meal anlamı gösterir. Metinler ve sesler cihazda bulunur.',
+                    'Cevşen-i Kebîr’in 100 babını ve kapanış duasını Arapça, meal ve Türkçe okunuş ile okuyabilirsin. Okunuş, Latin harfli telaffuzdur; meal anlamı gösterir. Metinler cihazda bulunur. Sesler ilk dinleme isteğinde indirilir; ardından çevrimdışı dinlenebilir.',
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -269,7 +308,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 16),
                   const Text('Telif veya içerik düzeltme talepleri'),
-                  const Text('Destek ve iletişim bölümünden mesaj gönderebilirsin.'),
+                  const Text(
+                    'Destek ve iletişim bölümünden mesaj gönderebilirsin.',
+                  ),
                 ],
               ),
               ExpansionTile(
@@ -299,14 +340,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'Okuma ve dinleme çevrimdışı çalışır. Güncelle düğmesine basıldığında sürüm bilgisi ve varsa yeni APK GitHub üzerinden indirilir; GitHub IP adresi gibi bağlantı bilgilerini görebilir. Mobil veri ücreti oluşabilir. Kurulum Android onayıyla tamamlanır. Destek veya kaynak bağlantısını seçersen haricî tarayıcı açılır. Tarayıcı, destek sitesi ve ödeme sağlayıcısının kendi koşulları geçerlidir. Uygulama banka veya kart bilgilerini işlemez.',
+                    'Okuma çevrimdışı çalışır. Dinleme için tüm ses kayıtları bir kez Herkul sunucusundan indirilir; ardından internet gerekmez. Sunucu IP adresi gibi bağlantı bilgilerini görebilir. Güncelle düğmesine basıldığında sürüm bilgisi ve varsa yeni APK GitHub üzerinden indirilir; GitHub IP adresi gibi bağlantı bilgilerini görebilir. Mobil veri ücreti oluşabilir. Paylaşımda yalnızca küçük kurucu gönderilir; alıcı uygulamayı internetten indirir. Kurulum Android onayıyla tamamlanır. Destek veya kaynak bağlantısını seçersen haricî tarayıcı açılır. Tarayıcı, destek sitesi ve ödeme sağlayıcısının kendi koşulları geçerlidir. Uygulama banka veya kart bilgilerini işlemez.',
                   ),
                   const SizedBox(height: 16),
                   const Text(
                     'Kamera, mikrofon, konum veya rehber izni istenmez. Yerel tercihleri silmek için Android ayarlarından uygulama verilerini temizleyebilir veya uygulamayı kaldırabilirsin.',
                   ),
                   const SizedBox(height: 16),
-                  const Text('Gizlilik soruların için Destek ve iletişim bölümünü kullanabilirsin.'),
+                  const Text(
+                    'Gizlilik soruların için Destek ve iletişim bölümünü kullanabilirsin.',
+                  ),
                 ],
               ),
               ExpansionTile(
@@ -327,7 +370,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 12),
         Card(
           child: ExpansionTile(
             leading: const Icon(Icons.local_cafe_outlined),
@@ -335,7 +377,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: const [SupportCard()],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         const Text('Okumak her zaman ücretsiz.', textAlign: TextAlign.center),
       ],
     ),

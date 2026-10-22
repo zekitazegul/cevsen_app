@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <queries><package android:name="com.zek.cevsen_app" /></queries>
+    <application android:label="Cevsen Installer" android:icon="@drawable/ic_installer"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar"
+        android:allowBackup="false" android:usesCleartextTraffic="false"
+        android:supportsRtl="true">
+        <provider android:name=".ApkProvider" android:authorities="${applicationId}.apk"
+            android:exported="false" android:grantUriPermissions="true" />
+        <activity android:name=".InstallerActivity" android:exported="true"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:enableOnBackInvokedCallback="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -26,11 +26,15 @@ def nodes():
     run('shell', 'uiautomator', 'dump', '/sdcard/distribution-qa.xml')
     data = run('shell', 'cat', '/sdcard/distribution-qa.xml')
     parsed = list(ET.fromstring(data).iter('node'))
-    allowed = {'com.zek.cevsen_app', 'com.zekitazegul.kuranapp',
+    allowed = {'com.zek.cevsen_app', 'com.zek.cevsen_installer', 'com.zekitazegul.kuranapp',
                'com.android.settings', 'com.android.systemui', 'android',
                'com.google.android.packageinstaller', 'com.samsung.android.packageinstaller',
                'com.google.android.permissioncontroller', 'com.google.android.gms'}
     foreground = next((node.get('package') for node in parsed if node.get('package')), '')
+    if foreground == 'com.android.vending':
+        focus = run('shell', 'dumpsys', 'window').decode(errors='replace')
+        if 'com.google.android.finsky.protectdialogs.activity.PlayProtectDialogsActivity' in focus:
+            allowed.add('com.android.vending')
     if foreground and foreground not in allowed:
         raise RuntimeError('Test uygulaması ön planda değil; ekran okunmadı.')
     (out / 'screen.xml').write_bytes(data)
