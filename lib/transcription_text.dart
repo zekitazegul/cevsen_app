@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'prayer_emphasis.dart';
+
 /// Places the three dots above the Latin s independently of font mark support.
 class TranscriptionText extends StatelessWidget {
   const TranscriptionText(
@@ -35,8 +37,8 @@ class TranscriptionText extends StatelessWidget {
             textAlign,
             MediaQuery.textScalerOf(context),
           ),
-          child: Text(
-            plain,
+          child: Text.rich(
+            prayerSpan(plain, style),
             style: style,
             textAlign: textAlign,
             textDirection: TextDirection.ltr,
@@ -65,7 +67,7 @@ class _DotsPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     if (positions.isEmpty) return;
     final painter = TextPainter(
-      text: TextSpan(text: text, style: style),
+      text: prayerSpan(text, style),
       textDirection: TextDirection.ltr,
       textAlign: alignment,
       textScaler: scaler,

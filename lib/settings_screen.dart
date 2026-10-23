@@ -7,7 +7,7 @@ import 'screen_awake.dart';
 
 const supportUrl = 'https://zekitazegul.github.io/support/?lang=tr';
 const tikkieUrl = 'https://tikkie.me/pay/qp5ddh9l8i6gg1dq6bc0';
-const appVersion = '1.2.3';
+const appVersion = '1.2.4';
 
 Future<void> openExternal(BuildContext context, String url) async {
   try {

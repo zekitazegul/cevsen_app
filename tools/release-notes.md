@@ -1,5 +1,5 @@
-Ayarlar sayfasında destek bölümüne erişim iyileştirildi.
+Bab sonlarındaki neccinâ, ecirnâ ve hallisnâ kelimeleri artık kalın ve kırmızı.
 
-Improved access to support in Settings.
+Closing pleas are now highlighted in bold red.
 
-Verbeterde toegang tot ondersteuning in Instellingen.
+De afsluitende smeekbeden zijn nu vet en rood gemarkeerd.

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'scroll_continuation.dart';
 import 'transcription_text.dart';
+import 'prayer_emphasis.dart';
 
 /// One bab, in one script. Enlarged or long chapters remain scrollable.
 class ChapterPage extends StatelessWidget {
@@ -70,9 +71,9 @@ class ChapterPage extends StatelessWidget {
             while (size > minimum) {
               final painter =
                   TextPainter(
-                    text: TextSpan(
-                      text: transcript ? text.replaceAll('\u20db', '') : text,
-                      style: style(size),
+                    text: prayerSpan(
+                      transcript ? text.replaceAll('\u20db', '') : text,
+                      style(size),
                     ),
                     textDirection: direction,
                     textAlign: alignment,
@@ -142,8 +143,8 @@ class ChapterPage extends StatelessWidget {
                                 style: style(size),
                                 textAlign: alignment,
                               )
-                            : Text(
-                                text,
+                            : Text.rich(
+                                prayerSpan(text, style(size)),
                                 textDirection: direction,
                                 textAlign: alignment,
                                 style: style(size),
