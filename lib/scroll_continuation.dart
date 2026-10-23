@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 
 class ScrollContinuation extends StatefulWidget {
@@ -81,18 +79,13 @@ class _ScrollContinuationState extends State<ScrollContinuation> {
                 bottom: 0,
                 height: 32,
                 child: IgnorePointer(
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(sigmaX: 2, sigmaY: 2),
-                      child: const DecoratedBox(
-                        key: ValueKey('continuation-mist'),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Color(0x00f3e8d1), Color(0xc0f3e8d1)],
-                          ),
-                        ),
+                  child: const DecoratedBox(
+                    key: ValueKey('continuation-mist'),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Color(0x00f3e8d1), Color(0xc0f3e8d1)],
                       ),
                     ),
                   ),

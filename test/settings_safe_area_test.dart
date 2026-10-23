@@ -21,7 +21,11 @@ void main() {
         () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
             .setMockMethodCallHandler(channel, null),
       );
-      SharedPreferences.setMockInitialValues({});
+      SharedPreferences.setMockInitialValues({
+        'arSize': 128.0,
+        'trSize': 128.0,
+        'mealSize': 128.0,
+      });
       await tester.pumpWidget(
         MaterialApp(
           home: MediaQuery(

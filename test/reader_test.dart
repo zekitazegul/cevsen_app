@@ -7,10 +7,106 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  for (final dimensions in [const Size(400, 800), const Size(800, 400)]) {
+    testWidgets('Pinch resizes text without changing bab at $dimensions', (
+      tester,
+    ) async {
+      tester.view.physicalSize = dimensions;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      SharedPreferences.setMockInitialValues({});
+      final prefs = await SharedPreferences.getInstance();
+      final chapters =
+          jsonDecode(File('assets/cevsen.json').readAsStringSync()) as List;
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Reader(
+            prefs: prefs,
+            chapters: chapters,
+            audio: const [],
+            initial: 0,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      double size() => tester
+          .widgetList<Text>(find.byType(Text))
+          .firstWhere((text) => text.textSpan != null)
+          .style!
+          .fontSize!;
+      final original = size();
+      final center = tester.getCenter(find.byType(PageView));
+      final first = await tester.startGesture(
+        center - const Offset(60, 0),
+        pointer: 1,
+      );
+      final second = await tester.startGesture(
+        center + const Offset(60, 0),
+        pointer: 2,
+      );
+      await first.moveTo(center - const Offset(120, 0));
+      await second.moveTo(center + const Offset(120, 0));
+      await tester.pump();
+      expect(size(), greaterThan(original));
+      final enlarged = size();
+      await first.moveTo(center - const Offset(50, 0));
+      await second.moveTo(center + const Offset(50, 0));
+      await tester.pump();
+      expect(size(), lessThan(enlarged));
+      await first.up();
+      await second.up();
+      await tester.pumpAndSettle();
+      expect(prefs.getInt('last'), 0);
+      expect(prefs.getDouble('arSize'), size());
+      expect(prefs.getBool('fitPage'), false);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpAndSettle();
+    });
+  }
+
+  testWidgets('Rotation enters fullscreen and restores reader controls', (
+    tester,
+  ) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(400, 800);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
+    final chapters =
+        jsonDecode(File('assets/cevsen.json').readAsStringSync()) as List;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Reader(
+          prefs: prefs,
+          chapters: chapters,
+          audio: const [],
+          initial: 0,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(AppBar), findsOneWidget);
+    tester.view.physicalSize = const Size(800, 400);
+    await tester.pumpAndSettle();
+    expect(find.byType(AppBar), findsNothing);
+    tester.view.physicalSize = const Size(400, 800);
+    await tester.pumpAndSettle();
+    expect(find.byType(AppBar), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
+    await tester.pumpAndSettle();
+  });
+
   for (final pageEffect in [true, false]) {
     testWidgets(
       'Bab 10 reopens with its heading visible (effect: $pageEffect)',
       (tester) async {
+        tester.view.physicalSize = const Size(600, 900);
+        tester.view.devicePixelRatio = 1;
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
         SharedPreferences.setMockInitialValues({
           'pageEffect': pageEffect,
           'fitPage': false,
@@ -66,6 +162,10 @@ void main() {
   testWidgets(
     'Reader follows finger and keeps scripts separate without audio card',
     (tester) async {
+      tester.view.physicalSize = const Size(600, 900);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
       final chapters =
@@ -110,7 +210,7 @@ void main() {
       await tester.pumpAndSettle();
       final texts = tester
           .widgetList<Text>(find.byType(Text))
-          .map((t) => t.data ?? '')
+          .map((t) => t.data ?? t.textSpan?.toPlainText() ?? '')
           .join();
       expect(RegExp(r'[\u0600-\u06ff]').hasMatch(texts), false);
       expect(texts, contains(chapters[1]['rows'][0]['tr']));

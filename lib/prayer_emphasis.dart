@@ -18,8 +18,9 @@ TextSpan prayerSpan(String text, TextStyle style) {
       'اجرنا',
       'أجرنا',
       'خلصنا',
-    }.contains(normalized))
+    }.contains(normalized)) {
       continue;
+    }
     children.add(TextSpan(text: text.substring(end, match.start)));
     children.add(
       TextSpan(

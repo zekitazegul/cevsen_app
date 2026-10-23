@@ -6,6 +6,82 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  testWidgets('Landscape reflows and enlarges text even with manual sizing', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(900, 400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: ChapterPage(
+            number: 1,
+            rows: [
+              {'tr': 'Bir dua'},
+              {'tr': 'Bir dua daha'},
+            ],
+            transcript: true,
+            fontSize: 14,
+            fitPage: false,
+          ),
+        ),
+      ),
+    );
+    final text = tester.widget<Text>(
+      find.byWidgetPredicate(
+        (widget) => widget is Text && widget.textSpan != null,
+      ),
+    );
+    expect(text.style!.fontSize, greaterThan(14));
+    expect(text.textSpan!.toPlainText(), 'Bir dua  Bir dua daha');
+    expect(
+      tester
+          .state<ScrollableState>(find.byType(Scrollable))
+          .position
+          .maxScrollExtent,
+      0,
+    );
+  });
+
+  testWidgets('Fit mode enlarges short text beyond the manual font size', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(400, 800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: ChapterPage(
+            number: 1,
+            rows: [
+              {'tr': 'Kısa dua'},
+            ],
+            transcript: true,
+            fontSize: 20,
+            fitPage: true,
+          ),
+        ),
+      ),
+    );
+    final text = tester.widget<Text>(
+      find.byWidgetPredicate(
+        (widget) => widget is Text && widget.textSpan != null,
+      ),
+    );
+    expect(text.style!.fontSize, greaterThan(20));
+    expect(
+      tester
+          .state<ScrollableState>(find.byType(Scrollable))
+          .position
+          .maxScrollExtent,
+      0,
+    );
+  });
+
   final chapters =
       jsonDecode(File('assets/cevsen.json').readAsStringSync()) as List;
   testWidgets(
@@ -88,7 +164,7 @@ void main() {
           );
           final texts = tester
               .widgetList<Text>(find.byType(Text))
-              .map((t) => t.data ?? '')
+              .map((t) => t.data ?? t.textSpan?.toPlainText() ?? '')
               .join();
           expect(RegExp(r'[\u0600-\u06ff]').hasMatch(texts), !transcript);
           expect(texts.contains(chapters[bab]['rows'][0]['tr']), transcript);

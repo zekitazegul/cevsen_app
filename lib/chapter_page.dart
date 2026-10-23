@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'scroll_continuation.dart';
 import 'transcription_text.dart';
 import 'prayer_emphasis.dart';
+import 'pinch_font_size.dart';
 
 /// One bab, in one script. Enlarged or long chapters remain scrollable.
 class ChapterPage extends StatelessWidget {
+  static final _fitSizes = <Object, double>{};
   const ChapterPage({
     super.key,
     required this.number,
@@ -18,6 +20,8 @@ class ChapterPage extends StatelessWidget {
     this.meaning = false,
     this.heading,
     this.readingProgress,
+    this.autoFitLandscape = true,
+    this.onFontSizeChanged,
   });
   final int number;
   final List rows;
@@ -28,6 +32,8 @@ class ChapterPage extends StatelessWidget {
   final String? heading;
   final double fontSize;
   final double? readingProgress;
+  final bool autoFitLandscape;
+  final ValueChanged<double>? onFontSizeChanged;
 
   @override
   Widget build(BuildContext context) => ColoredBox(
@@ -37,7 +43,9 @@ class ChapterPage extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final latin = transcript || meaning;
-          final lineLayout = !latin && arabicLineStarts;
+          final landscape =
+              MediaQuery.orientationOf(context) == Orientation.landscape;
+          final lineLayout = !landscape && !latin && arabicLineStarts;
           final text = rows
               .map(
                 (r) =>
@@ -47,7 +55,11 @@ class ChapterPage extends StatelessWidget {
                         ? 'tr'
                         : 'ar']}',
               )
-              .join(latin || lineLayout ? '\n' : '  ۞  ');
+              .join(
+                latin
+                    ? (landscape ? '  ' : '\n')
+                    : (lineLayout ? '\n' : '  ۞  '),
+              );
           final alignment = latin
               ? (meaning || transcriptLeftAligned
                     ? TextAlign.left
@@ -66,31 +78,68 @@ class ChapterPage extends StatelessWidget {
             1.0,
             double.infinity,
           );
-          if (fitPage) {
+          if (fitPage || (landscape && autoFitLandscape)) {
             final minimum = latin ? 14.0 : 20.0;
-            while (size > minimum) {
-              final painter =
-                  TextPainter(
-                    text: prayerSpan(
-                      transcript ? text.replaceAll('\u20db', '') : text,
-                      style(size),
-                    ),
-                    textDirection: direction,
-                    textAlign: alignment,
-                    textScaler: scaler,
-                  )..layout(
-                    maxWidth: (constraints.maxWidth - 16).clamp(
-                      1.0,
-                      double.infinity,
-                    ),
-                  );
-              final fits = painter.height <= available;
-              painter.dispose();
-              if (fits) break;
-              size = (size - .5).clamp(minimum, fontSize);
+            final cacheKey = (
+              text,
+              fontSize,
+              constraints.maxWidth,
+              available,
+              scaler,
+              latin,
+              transcript,
+              alignment,
+              direction,
+            );
+            final cached = _fitSizes[cacheKey];
+            if (cached != null) {
+              size = cached;
+            } else {
+              var low = 0;
+              // A short chapter can grow beyond the manual font setting to
+              // fill the viewport. Long chapters keep a readable minimum.
+              final maximum = (available / (latin ? 1.55 : 1.9)).clamp(
+                minimum,
+                double.infinity,
+              );
+              var high = ((maximum - minimum) * 2).floor();
+              var best = minimum;
+              while (low <= high) {
+                final step = (low + high) ~/ 2;
+                final candidate = minimum + step * .5;
+                final painter =
+                    TextPainter(
+                      text: prayerSpan(
+                        transcript ? text.replaceAll('\u20db', '') : text,
+                        DefaultTextStyle.of(context).style
+                            .merge(style(candidate)),
+                      ),
+                      textDirection: direction,
+                      textAlign: alignment,
+                      textScaler: scaler,
+                    )..layout(
+                      maxWidth: (constraints.maxWidth - 18).clamp(
+                        1.0,
+                        double.infinity,
+                      ),
+                    );
+                final fits = painter.height <= available;
+                painter.dispose();
+                if (fits) {
+                  best = candidate;
+                  low = step + 1;
+                } else {
+                  high = step - 1;
+                }
+              }
+              size = best;
+              if (_fitSizes.length >= 64) {
+                _fitSizes.remove(_fitSizes.keys.first);
+              }
+              _fitSizes[cacheKey] = size;
             }
           }
-          return ScrollContinuation(
+          final content = ScrollContinuation(
             readingProgress: readingProgress,
             builder: (controller) => SingleChildScrollView(
               controller: controller,
@@ -135,20 +184,22 @@ class ChapterPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: transcript && text.contains('\u20db')
-                            ? TranscriptionText(
-                                text,
-                                style: style(size),
-                                textAlign: alignment,
-                              )
-                            : Text.rich(
-                                prayerSpan(text, style(size)),
-                                textDirection: direction,
-                                textAlign: alignment,
-                                style: style(size),
-                              ),
+                      RepaintBoundary(
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: transcript && text.contains('\u20db')
+                              ? TranscriptionText(
+                                  text,
+                                  style: style(size),
+                                  textAlign: alignment,
+                                )
+                              : Text.rich(
+                                  prayerSpan(text, style(size)),
+                                  textDirection: direction,
+                                  textAlign: alignment,
+                                  style: style(size),
+                                ),
+                        ),
                       ),
                     ],
                   ),
@@ -156,6 +207,13 @@ class ChapterPage extends StatelessWidget {
               ),
             ),
           );
+          return onFontSizeChanged == null
+              ? content
+              : PinchFontSize(
+                  fontSize: size,
+                  onChanged: onFontSizeChanged!,
+                  child: content,
+                );
         },
       ),
     ),

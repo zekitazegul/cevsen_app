@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'dart:math' as math;
 
 import 'chapter_page.dart';
+import 'page_swipe.dart';
 import 'settings_screen.dart';
 import 'screen_awake.dart';
 import 'audio_library.dart';
 import 'audio_download_dialog.dart';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -288,8 +290,11 @@ class _ReaderState extends State<Reader> {
   bool controls = true, transcript = false, busy = false;
   bool meaning = false;
   bool fitPage = true;
+  Orientation? readerOrientation;
+  bool autoFitLandscape = true;
   bool pageEffect = true;
   double dragDistance = 0;
+  Drag? pageDrag;
   late bool arabicLineStarts;
   late bool transcriptLeftAligned;
   late final PageController pages;
@@ -318,6 +323,21 @@ class _ReaderState extends State<Reader> {
       audioPage = next;
       jump(next);
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final orientation = MediaQuery.orientationOf(context);
+    if (readerOrientation == orientation) return;
+    if (readerOrientation != null || orientation == Orientation.landscape) {
+      controls = orientation != Orientation.landscape;
+    }
+    readerOrientation = orientation;
+    autoFitLandscape = true;
+    SystemChrome.setEnabledSystemUIMode(
+      controls ? SystemUiMode.edgeToEdge : SystemUiMode.immersiveSticky,
+    );
   }
 
   @override
@@ -475,19 +495,25 @@ class _ReaderState extends State<Reader> {
   }
 
   void resize(double amount) {
+    resizeTo(
+      (meaning
+              ? mealSize
+              : transcript
+              ? trSize
+              : arSize) +
+          amount,
+    );
+  }
+
+  void resizeTo(double requestedSize) {
     final key = meaning
         ? 'mealSize'
         : transcript
         ? 'trSize'
         : 'arSize';
-    final size = meaning
-        ? mealSize
-        : transcript
-        ? trSize
-        : arSize;
-    final next = (size + amount).clamp(
+    final next = requestedSize.clamp(
       !transcript && !meaning ? 22.0 : 14.0,
-      !transcript && !meaning ? 64.0 : 40.0,
+      128.0,
     );
     setState(() {
       if (meaning) {
@@ -498,6 +524,7 @@ class _ReaderState extends State<Reader> {
         arSize = next;
       }
       fitPage = false;
+      autoFitLandscape = false;
     });
     widget.prefs.setDouble(key, next);
     widget.prefs.setBool('fitPage', false);
@@ -675,64 +702,86 @@ class _ReaderState extends State<Reader> {
               child: GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onDoubleTap: toggle,
-                onHorizontalDragStart: pageEffect
-                    ? null
-                    : (_) => dragDistance = 0,
-                onHorizontalDragUpdate: pageEffect
-                    ? null
-                    : (d) => dragDistance += d.delta.dx,
-                onHorizontalDragEnd: pageEffect
-                    ? null
-                    : (d) {
-                        final speed = d.primaryVelocity ?? 0;
-                        if (dragDistance.abs() > 40 || speed.abs() > 160) {
-                          jump(
-                            index +
-                                ((dragDistance.abs() > 40
-                                            ? dragDistance
-                                            : speed) <
-                                        0
-                                    ? 1
-                                    : -1),
-                          );
-                        }
-                      },
-                child: PageView.builder(
-                  physics: pageEffect
-                      ? null
-                      : const NeverScrollableScrollPhysics(),
-                  controller: pages,
-                  itemCount: widget.chapters.length,
-                  onPageChanged: selectedPage,
-                  itemBuilder: (context, page) => StreamBuilder<Duration>(
-                    stream: player.positionStream,
-                    builder: (context, snapshot) => ChapterPage(
-                      key: ValueKey(
-                        '$page-$transcript-$meaning-${page == index}',
+                child: PageSwipe(
+                  onStart: (details) {
+                    dragDistance = 0;
+                    if (pageEffect) {
+                      pageDrag = pages.position.drag(
+                        details,
+                        () => pageDrag = null,
+                      );
+                    }
+                  },
+                  onUpdate: (details) {
+                    if (pageEffect) {
+                      pageDrag?.update(details);
+                    } else {
+                      dragDistance += details.delta.dx;
+                    }
+                  },
+                  onCancel: () {
+                    pageDrag?.cancel();
+                    pageDrag = null;
+                    dragDistance = 0;
+                  },
+                  onEnd: (d) {
+                    if (pageEffect) {
+                      pageDrag?.end(d);
+                      pageDrag = null;
+                    } else {
+                      final speed = d.primaryVelocity ?? 0;
+                      if (dragDistance.abs() > 40 || speed.abs() > 160) {
+                        jump(
+                          index +
+                              ((dragDistance.abs() > 40
+                                          ? dragDistance
+                                          : speed) <
+                                      0
+                                  ? 1
+                                  : -1),
+                        );
+                      }
+                    }
+                  },
+                  child: PageView.builder(
+                    allowImplicitScrolling: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: pages,
+                    itemCount: widget.chapters.length,
+                    onPageChanged: selectedPage,
+                    itemBuilder: (context, page) => StreamBuilder<Duration>(
+                      stream: player.positionStream,
+                      builder: (context, snapshot) => ChapterPage(
+                        key: ValueKey(
+                          '$page-$transcript-$meaning-${page == index}',
+                        ),
+                        number: page + 1,
+                        heading: widget.chapters[page]['title'] as String?,
+                        rows: widget.chapters[page]['rows'] as List,
+                        transcript: transcript,
+                        fontSize: meaning
+                            ? mealSize
+                            : transcript
+                            ? trSize
+                            : arSize,
+                        meaning: meaning,
+                        fitPage: fitPage,
+                        autoFitLandscape: autoFitLandscape,
+                        onFontSizeChanged: resizeTo,
+                        arabicLineStarts: arabicLineStarts,
+                        transcriptLeftAligned: transcriptLeftAligned,
+                        readingProgress:
+                            loaded != null &&
+                                playlistStart + (player.currentIndex ?? 0) ==
+                                    page &&
+                                page < widget.audio.length
+                            ? (player.position.inMilliseconds /
+                                      ((widget.audio[page]['endMs'] as int) -
+                                          (widget.audio[page]['startMs']
+                                              as int)))
+                                  .clamp(0.0, 1.0)
+                            : null,
                       ),
-                      number: page + 1,
-                      heading: widget.chapters[page]['title'] as String?,
-                      rows: widget.chapters[page]['rows'] as List,
-                      transcript: transcript,
-                      fontSize: meaning
-                          ? mealSize
-                          : transcript
-                          ? trSize
-                          : arSize,
-                      meaning: meaning,
-                      fitPage: fitPage,
-                      arabicLineStarts: arabicLineStarts,
-                      transcriptLeftAligned: transcriptLeftAligned,
-                      readingProgress:
-                          loaded != null &&
-                              playlistStart + (player.currentIndex ?? 0) ==
-                                  page &&
-                              page < widget.audio.length
-                          ? (player.position.inMilliseconds /
-                                    ((widget.audio[page]['endMs'] as int) -
-                                        (widget.audio[page]['startMs'] as int)))
-                                .clamp(0.0, 1.0)
-                          : null,
                     ),
                   ),
                 ),

@@ -7,7 +7,7 @@ import 'screen_awake.dart';
 
 const supportUrl = 'https://zekitazegul.github.io/support/?lang=tr';
 const tikkieUrl = 'https://tikkie.me/pay/qp5ddh9l8i6gg1dq6bc0';
-const appVersion = '1.2.4';
+const appVersion = '1.2.7';
 
 Future<void> openExternal(BuildContext context, String url) async {
   try {
@@ -154,7 +154,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 'Arapça yazı boyutu',
                 ar,
                 22,
-                64,
+                128,
                 'arSize',
                 (v) => ar = v,
               ),
@@ -162,7 +162,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 'Türkçe okunuş yazı boyutu',
                 tr,
                 14,
-                40,
+                128,
                 'trSize',
                 (v) => tr = v,
               ),
@@ -170,7 +170,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 'Meal yazı boyutu',
                 meal,
                 14,
-                40,
+                128,
                 'mealSize',
                 (v) => meal = v,
               ),
